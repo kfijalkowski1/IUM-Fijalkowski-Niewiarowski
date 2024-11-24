@@ -31,7 +31,7 @@ def print_null_report(file_path):
     print("File: ", file_path)
     print("Rows: ", no_rows)
     print("Rows with nulls: ", rows_nulls)
-    print("Nulls per column:\n-----------------", nulls_per_column)
+    print("Nulls per column:\n-----------------\n", nulls_per_column)
     print("-----------------")
     print("Percent of nulls in data: ", rows_nulls / no_rows * 100, "%")
 

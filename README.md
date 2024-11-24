@@ -23,17 +23,17 @@ Z analizy dostarczonej wersji danych wyciągneliśmy następujące wnioski:
 
     Procentowy rozkład został zaprezentowany na poniższym wykresie:
 
-![Opis alternatywny](data_analize_scripts\plots\v1\storage_mode.png)
+![Opis alternatywny](.\data_analize_scripts\plots\v1\storage_mode.png)
 
 - W pliku sessions otrzymaliśmy informację o około ~10 000 sesjach użytkownika, w przypadku 1301 wierszy posiadało puste wartości. Dodatkowo pola opisujące sesje nie zostały podpsiane, przez co trudno zrozumieć znaczenie biznesowe części pól, w szczególności ostatniej kolumny, będącej dla każdego przypadku liczbą natrualną, dodatnią. Rozkład pola nr. 4 które interpretujemy jako akcję podjętą w danej sesji wygląda w następujący sposób:
 
-![Opis alternatywny](data_analize_scripts\plots\v1\actions.png)
+![Opis alternatywny](.\data_analize_scripts\plots\v1\actions.png)
 
 - Dodatkowo wygenerowaliśmy wykresy ukazujące klasę pamięci dla akcji 'Skip' oraz 'Play', jednak nie staraliśmy się wyciągać jakichkolowiek przypuszczeń bądź wniosków ze względu na duży udział klasy 'Slow' w udostępnionych danych.
 
-![Opis alternatywny](data_analize_scripts\plots\v1\PlaySession.png)
+![Opis alternatywny](.\data_analize_scripts\plots\v1\PlaySession.png)
 
-![Opis alternatywny](data_analize_scripts\plots\v1\SkipSession.png)
+![Opis alternatywny](.\data_analize_scripts\plots\v1\SkipSession.png)
 
 Liczba dostępnych danych na temat sesji jest niewielka w porównaniu do ilości danych na temat utworów
 

@@ -13,7 +13,7 @@ Stworzenie modelu klasyfikującego czy użytkownik nie pominie danego utworu. Pr
 Zajmujemy się klasyfikacją binarną akcji użytkowników. Staramy się określić czy dany użytkownik pominie lub nie pominie dany utwór na podstawie jego preferencji i atrybutów danego utworu.
 ### Założenia
 - Użytkownicy mają w miarę stałe preferencje muzyczne (nie zmieniają ich co dwa tygodnie)
-- Dostarczone dane jak i te zbierane poprawnie i w pełni zebrane
+- Analitycy dostarczają poprawne i pełne dane
 - Nie rozróżnimy typów pominięcia utworu w zależności od czasu przesłuchanego utworu, utwór pominięty w  1/2 lub w 1/4 jego trwania jest tak samo pominiętym utworem
 
 ## Kryteria sukcesu

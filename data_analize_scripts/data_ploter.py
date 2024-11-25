@@ -114,13 +114,13 @@ def analyze_skip_percentage(session_file, storage_file, storage_mode, path_to_sa
     # Tworzenie wykresu kołowego
     plt.figure(figsize=(8, 6))
     plt.pie(values, labels=labels, autopct='%1.1f%%', startangle=140, colors=plt.cm.tab20.colors)
-    plt.title("Procent utworów z różnymi klasami pamięci w akcjach 'Skip'")
+    plt.title(f"Procent utworów z różnymi klasami pamięci w akcjach {storage_mode}")
     plt.savefig(PLOTS_FOLDER_PATH + path_to_save, format="png", dpi=300)
 
 def main():
-    #actions_in_session('sessions.jsonl')
-    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
-    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
+    actions_in_session('sessions.jsonl')
+    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
+    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
     storage_mode('track_storage.jsonl', 'storage_mode.png')
 
 main()

@@ -117,10 +117,86 @@ def analyze_skip_percentage(session_file, storage_file, storage_mode, path_to_sa
     plt.title(f"Procent utworów z różnymi klasami pamięci w akcjach {storage_mode}")
     plt.savefig(PLOTS_FOLDER_PATH + path_to_save, format="png", dpi=300)
 
+def tracks_with_sessions(tracks_path, sessions_path, save = 'tracks_occurrence.png'):
+    # Wczytanie danych
+    tracks = pd.read_json(DATA_FOLDER_PATH + tracks_path, lines=True)
+    sessions = pd.read_json(DATA_FOLDER_PATH + sessions_path, lines=True)
+
+    # Zmiana nazw kolumn w sesjach dla przejrzystości
+    sessions.columns = ["timestamp", "session_id", "track_id", "action", "user_id"]
+
+    # Filtrowanie sesji, aby zachować tylko te, które mają prawidłowe identyfikatory utworów
+    valid_sessions = sessions[sessions["track_id"].isin(tracks["id"])]
+
+    # Liczba wystąpień każdego track_id w prawidłowych sesjach
+    track_occurrences = valid_sessions["track_id"].value_counts()
+
+    # Dodanie kolumny z liczbą wystąpień do tracks
+    tracks["session_count"] = tracks["id"].map(track_occurrences).fillna(0).astype(int)
+
+    # Podsumowanie danych
+    no_sessions_count = (tracks["session_count"] == 0).sum()
+    non_zero_sessions_count = (tracks["session_count"] > 0).sum()
+
+    print(f"Liczba utworów bez sesji: {no_sessions_count}")
+    print(f"Liczba utworów z co najmniej jedną sesją: {non_zero_sessions_count}")
+
+    # Wykres: podział na utwory z i bez sesji
+    counts = [non_zero_sessions_count, no_sessions_count]
+    labels = ["Tracks with Sessions", "Tracks without Sessions"]
+
+    plt.figure(figsize=(8, 6))
+    plt.bar(labels, counts, color=["green", "red"], alpha=0.75)
+    plt.title("Tracks with and without Sessions")
+    plt.ylabel("Number of Tracks")
+    plt.xlabel("Track Presence in Sessions")
+    plt.savefig(PLOTS_FOLDER_PATH + save, format="png", dpi=300)
+
+def trac_popularity(tracks_path, sessions_path, save = 'tracks_popularity.png'):
+    tracks = pd.read_json(DATA_FOLDER_PATH + tracks_path, lines=True)
+    sessions = pd.read_json(DATA_FOLDER_PATH + sessions_path, lines=True)
+
+    # Zmiana nazw kolumn w sesjach dla przejrzystości
+    sessions.columns = ["timestamp", "session_id", "track_id", "action", "user_id"]
+
+    # Filtrowanie sesji, aby zachować tylko te, które mają prawidłowe identyfikatory utworów
+    valid_sessions = sessions[sessions["track_id"].isin(tracks["id"])]
+
+    # Liczba wystąpień każdego track_id w prawidłowych sesjach
+    track_occurrences = valid_sessions["track_id"].value_counts()
+
+    # Dodanie kolumny z liczbą wystąpień do tracks
+    tracks["session_count"] = tracks["id"].map(track_occurrences).fillna(0).astype(int)
+
+    # Filtrowanie utworów z co najmniej jednym odtworzeniem
+    filtered_tracks = tracks[tracks["session_count"] > 0].copy()  # Tworzenie kopii, aby uniknąć ostrzeżenia
+
+    # Tworzenie dynamicznych binów
+    max_session_count = filtered_tracks["session_count"].max()
+    bins = list(range(1, min(max_session_count, 10) + 1)) + [max_session_count + 1]
+    labels = [str(i) for i in range(1, len(bins))]  # Tworzenie etykiet: 1, 2, ..., 10+
+
+    # Tworzenie przedziałów dla liczby odtworzeń
+    filtered_tracks.loc[:, "play_count_range"] = pd.cut(filtered_tracks["session_count"], bins=bins, labels=labels, right=False)
+
+    # Liczba utworów w każdej kategorii
+    play_count_ranges = filtered_tracks["play_count_range"].value_counts().sort_index()
+
+    # Wykres
+    plt.figure(figsize=(10, 6))
+    plt.bar(play_count_ranges.index.astype(str), play_count_ranges, alpha=0.75)
+    plt.title("Track Play Count Distribution")
+    plt.ylabel("Number of Tracks")
+    plt.xlabel("Play Count")
+    plt.xticks(rotation=0)
+    plt.savefig(PLOTS_FOLDER_PATH + save, format="png", dpi=300)
+
 def main():
-    actions_in_session('sessions.jsonl')
-    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
-    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
-    storage_mode('track_storage.jsonl', 'storage_mode.png')
+    #actions_in_session('sessions.jsonl')
+    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
+    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
+    #storage_mode('track_storage.jsonl', 'storage_mode.png')
+    tracks_with_sessions('tracks.jsonl','sessions.jsonl')
+    trac_popularity('tracks.jsonl','sessions.jsonl')
 
 main()

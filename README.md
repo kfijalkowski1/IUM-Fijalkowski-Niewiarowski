@@ -70,6 +70,12 @@ Unikalne utwory pojawiały się najczęściej 1-2 razy w pliku sessions, najczę
 
 - W pliku artists otrzymaliśmy dane na temat 27650 artystów. Dla ~2600 wierszy dane są niekompletne, występuje to dla pierwszej oraz ostatniej kolumny. Dodatkowo brakuje nazw poszczególnych kolumn.
 
+Dodatkowo sprawdziliśmy jaki rodzaj muzyki występuje w dostarczonych danych nt. sesji użytkownika, rodzaj muzyki ustalaliśmy na bazie podaych gatunków muzycznych dla artystów przypisanych do konkretnych utworów. Wykres prezentuje się w następujący sposób:
+
+![Opis alternatywny](./data_analize_scripts/plots/v1/music_genres.png)
+
+Na wykresie możemy zauważyć istotną różnicę w występowaniu poszczególnych gatunków muzycznych w dostarczonych danych na temat sesji użytkowników, część z gatunków muzycznych jest częściej proponowana przez aplikację.
+
 ### Wnioski wyciągnięte na podstawie przeprowadzonej analizy
 
 - Nieproporcjonalna liczba sesji użytkownika w stosunku do liczy utoworów:

@@ -191,12 +191,38 @@ def trac_popularity(tracks_path, sessions_path, save = 'tracks_popularity.png'):
     plt.xticks(rotation=0)
     plt.savefig(PLOTS_FOLDER_PATH + save, format="png", dpi=300)
 
+def plot_genre_histogram_for_action(action, artists_path, sessions_path):
+    artists = pd.read_json(DATA_FOLDER_PATH + artists_path, lines=True)
+    sessions = pd.read_json(DATA_FOLDER_PATH + sessions_path, lines=True)
+
+    artists.columns = ["artist_id", "artist_name", "genres"]
+    sessions.columns = ["timestamp", "session_id", "track_id", "action", "user_id"]
+
+    merged = sessions.merge(artists, left_on="track_id", right_on="artist_id", how="inner")
+
+    filtered = merged[merged["action"] == action]
+
+    filtered = filtered.explode("genres").dropna(subset=["genres"])
+
+    genre_counts = filtered["genres"].value_counts()
+
+    plt.figure(figsize=(12, 6))
+    genre_counts.head(10).plot(kind="bar", alpha=0.75)
+    plt.title(f"Top 10 Genres for Action: {action}")
+    plt.xlabel("Genres")
+    plt.ylabel("Count")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(PLOTS_FOLDER_PATH + f'music_genres_{action}.png', format="png", dpi=300)
+
 def main():
     #actions_in_session('sessions.jsonl')
     #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
     #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
     #storage_mode('track_storage.jsonl', 'storage_mode.png')
-    tracks_with_sessions('tracks.jsonl','sessions.jsonl')
-    trac_popularity('tracks.jsonl','sessions.jsonl')
+    #tracks_with_sessions('tracks.jsonl','sessions.jsonl')
+    #trac_popularity('tracks.jsonl','sessions.jsonl')
+    plot_genre_histogram_for_action('Play', 'artists.jsonl', 'sessions.jsonl')
+    plot_genre_histogram_for_action('Like', 'artists.jsonl', 'sessions.jsonl')
 
 main()

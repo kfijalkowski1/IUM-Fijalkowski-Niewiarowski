@@ -88,7 +88,6 @@ def check_if_user_likes_track(user_id: int, track_id: str) -> bool:
 
 
 def test_if_user_should_skip():
-    i = 0
     true_positive = 0
     true_negative = 0
     false_positive = 0
@@ -96,8 +95,6 @@ def test_if_user_should_skip():
     incorrect_data = 0
     start_time = time.time()
     for line in open(os.path.join(globals.DATA_FOLDER_PATH, "sessions.jsonl"), 'r', encoding='utf-8'):
-            if i > 100: # first 100 lines
-                break
             data = json.loads(line)
             try:
                 play_recommended = check_if_user_likes_track(data[globals.SessionsTableIndex.user_id.value], data[globals.SessionsTableIndex.track_id.value])
@@ -112,7 +109,6 @@ def test_if_user_should_skip():
                 false_positive += 1
             if data[globals.SessionsTableIndex.action.value] == "Skip" and not play_recommended:
                 true_negative += 1
-            i += 1
     end_time = time.time()
     print("True positive: ", true_positive)
     print("True negative: ", true_negative)

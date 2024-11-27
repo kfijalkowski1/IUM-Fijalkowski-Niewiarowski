@@ -78,3 +78,8 @@ Unikalne utwory pojawiały się najczęściej 1-2 razy w pliku sessions, najczę
     - Ograniczona liczba sesji w stosunku do liczby utworów powoduje nierównomierne reprezentowanie danych w modelu, co może skutkować w przyszłości niską dokładnością predykcji dla rzadziej występujących utworów.
 - Nadreprezentacja klasy pamięci "Slow":
     - W pliku "trac_storage" zdecydowana większość utworów (98.9%) znajduje się w klasie pamięci "Slow". Inne klasy, takie jak "Medium" i "Fast", są marginalnie reprezentowane, co ogranicza różnorodność danych do analizy.
+- Mała ilość danych na temat użytkowników:
+    - W pliku Users znajdują się informacje na temat tylko 50 użytkowników
+- Brak opisu dostarczonych danych:
+    - Niejasne zrozumienie niektórych pól utrudnia efektyną analizę dostarczonych danych
+    - Przed kolejną iteracją etapu analizy danych konieczna będzie konsultacja z klientem, w celu ustalenia znaczenia biznesowego części dostarczonych danych.

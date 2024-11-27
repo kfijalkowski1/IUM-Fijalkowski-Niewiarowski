@@ -56,5 +56,30 @@ Z analizy dostarczonej wersji danych wyciągneliśmy następujące wnioski:
 ![Opis alternatywny](./data_analize_scripts/plots/v1/SkipSession.png)
 
 Liczba dostępnych danych na temat sesji jest niewielka w porównaniu do ilości danych na temat utworów
+Ukazują to dwa sporządzone wykresy, na pierwszym z nich widzimy ilość utworów które wystąpują co najmniej raz w pliku sessions, oraz ilość utworów których id nie występuje w pliku sessions:
+
+![Opis alternatywny](./data_analize_scripts/plots/v1/tracks_occurrence.png)
+
+W zapisie z ~9200 sesji występuje około 5300 utworów co stanowi około 4% spośród wszystkich udostępnionych nam utworów.
+
+Drugi wykres ukazuje ilość wystąpień uworów w pliku sessions:
+
+![Opis alternatywny](./data_analize_scripts/plots/v1/tracks_popularity.png)
+
+Unikalne utwory pojawiały się najczęściej 1-2 razy w pliku sessions, najczęściej występujący utwór pojawił się pliku sessions 5 razy
 
 - W pliku artists otrzymaliśmy dane na temat 27650 artystów. Dla ~2600 wierszy dane są niekompletne, występuje to dla pierwszej oraz ostatniej kolumny. Dodatkowo brakuje nazw poszczególnych kolumn.
+
+### Wnioski wyciągnięte na podstawie przeprowadzonej analizy
+
+- Nieproporcjonalna liczba sesji użytkownika w stosunku do liczy utoworów:
+    - Otrzymano dane dla ~130 000 utworów, ale tylko ~10 000 sesji użytkowników. Z tych sesji jedynie 5 300 unikalnych utworów jest odnotowanych, 96% utowrów nie zostało nigdy odnotowanych w sejsach użytkowników.
+    - Większość unikalnych utworów w sesjach pojawiła się tylko 1–2 razy, a najczęściej występujący utwór pojawił się maksymalnie 5 razy. Oznacza to ograniczoną ilość danych treningowych dla modelu dotyczącego popularności utworów.
+    - Ograniczona liczba sesji w stosunku do liczby utworów powoduje nierównomierne reprezentowanie danych w modelu, co może skutkować w przyszłości niską dokładnością predykcji dla rzadziej występujących utworów.
+- Nadreprezentacja klasy pamięci "Slow":
+    - W pliku "trac_storage" zdecydowana większość utworów (98.9%) znajduje się w klasie pamięci "Slow". Inne klasy, takie jak "Medium" i "Fast", są marginalnie reprezentowane, co ogranicza różnorodność danych do analizy.
+- Mała ilość danych na temat użytkowników:
+    - W pliku Users znajdują się informacje na temat tylko 50 użytkowników
+- Brak opisu dostarczonych danych:
+    - Niejasne zrozumienie niektórych pól utrudnia efektyną analizę dostarczonych danych
+    - Przed kolejną iteracją etapu analizy danych konieczna będzie konsultacja z klientem, w celu ustalenia znaczenia biznesowego części dostarczonych danych.

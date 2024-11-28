@@ -16,11 +16,27 @@ Zajmujemy się klasyfikacją binarną akcji użytkowników. Staramy się określ
 - Analitycy dostarczają poprawne i pełne dane
 - Nie rozróżnimy typów pominięcia utworu w zależności od czasu przesłuchanego utworu, utwór pominięty w  1/2 lub w 1/4 jego trwania jest tak samo pominiętym utworem
 
+## Model bazowy
+### Opis
+Jako model bazowy stworzyliśmy program który sprawdza czy typ danej piosenki jest wśród lubianych typów muzyki danego użytkownika i definiowaliśmy, że pominie ten utwór jeśli nie jest
+### Wyniki
+Tablica pomyłek dla modelu bazowego:
+```
+[  255  1386]
+[  102 3876]
+```
+Inne metryki:
+- Dokładność: 0.29
+- Recall: 0.71
+- Precyzja: 0.06
+
+
+
 ## Kryteria sukcesu
 ### Biznesowe
 Celem jest przyspieszenie działania aplikacji poprzez cache-owanie tylko potrzebnych utworów, więc odpowiednim kryterium sukcesu będzie zbieranie metryk dotyczących na ile dokładne były nasze predykcje w środowisku produkcyjnym. Pozwoli to określić czy nasz model w realny sposób usprawnia działanie aplikacji. Ze względu na specyfikę zadania można zbierać te metryki w czasie rzeczywistym po czym prezentować je w zintegrowanych systemach (użyć w tym celu można np. prometeusza i grafany).
 ### Analityczna
-Na podstawie aktualnych danych widzimy, że 60.7% utworów zostało nie pominiętych, więc jeśli byśmy oznaczali wszystkie jako nie pomijane, otrzymalibyśmy wynik z dokładnością 60.7%, tak więc naszym zadaniem jest wytworzenie modelu który będzie klasyfikował binarnie z dokładnością większą od 60.7%.
+Model bazowy ma bardzo niską dokładność 29%, naszym zadniem będzie utworzenie modelu o większej dokładności
 
 ## Analiza danych
 Klient udostępnił nam dane dotyczące:

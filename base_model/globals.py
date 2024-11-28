@@ -1,5 +1,7 @@
 from enum import Enum
 import os
+import pandas as pd
+from typing import List
 
 DATA_FOLDER_PATH = os.path.join("dane", "v1")
 
@@ -28,3 +30,16 @@ class SessionsTableIndex(Enum):
 
 class IncorrectData(Exception):
     pass
+
+
+# column typpes
+user_columns = ["user_id", "name", "address1", "address2", "liked_genres", "unknown"]
+artist_columns = ["artist_id", "artist_name", "genre"]
+sessions_columns = ["session_date", "user_id", "track_id", "action", "unknown"]
+
+def create_dataframe_from_array(path: str, columns: List[str]) -> pd.DataFrame:
+    global DATA_FOLDER_PATH
+    data = pd.DataFrame(pd.read_json(os.path.join(DATA_FOLDER_PATH, path), lines=True))
+    data.transpose()
+    data.columns = columns
+    return data

@@ -1,12 +1,18 @@
 from typing import List
 import os
 import globals as globals
-import json
 import pandas as pd
 import time
 
 author_genre = {}
 track_genre = {}
+
+# load data only once
+
+user_data = globals.create_dataframe_from_array("users.jsonl", globals.user_columns)
+tracks_data = pd.DataFrame(pd.read_json(os.path.join(globals.DATA_FOLDER_PATH, "tracks.jsonl"), lines=True))
+artists_data = globals.create_dataframe_from_array("artists.jsonl", globals.artist_columns)
+
 
 def get_user_favorite_types(user_id: int) -> List[str]:
     """
@@ -14,11 +20,9 @@ def get_user_favorite_types(user_id: int) -> List[str]:
     :param user_id: User ID
     :return: List of favorite types (genres)
     """
-    # read jsonl (very dumb function, waiting for better jsonl with dict not list...)
-    for line in open(os.path.join(globals.DATA_FOLDER_PATH, "users.jsonl"), 'r', encoding='utf-8'):
-        data = json.loads(line)
-        if data[globals.UserTableIndex.user_id.value] == user_id:
-            return data[globals.UserTableIndex.liked_genres.value]
+    user = user_data[user_data["user_id"] == user_id]
+    if not user.empty:
+        return user.iloc[0]["liked_genres"]
     return []
 
 
@@ -29,8 +33,7 @@ def get_track_author(track_id: str) -> str:
     :param track_id: ID of the track
     :return: artist_id if found, None otherwise
     """
-    data = pd.read_json(os.path.join(globals.DATA_FOLDER_PATH, "tracks.jsonl"), lines=True)
-    filtered_data = data[data["id"] == track_id]
+    filtered_data = tracks_data[tracks_data["id"] == track_id]
     if not filtered_data.empty:
         return filtered_data.iloc[0]["artist_id"]  # Access the first row's artist_id
     return None
@@ -63,13 +66,11 @@ def get_song_genre(track_id: str) -> List[str]:
     if author_genre.get(artist_id) is not None:
         return author_genre.get(artist_id)
 
-    # read jsonl (very dumb function, waiting for better jsonl with dict not list...)
-    for line in open(os.path.join(globals.DATA_FOLDER_PATH, "artists.jsonl"), 'r', encoding='utf-8'):
-        data = json.loads(line)
-        if data[globals.ArtistTableIndex.artist_id.value] == artist_id:
-            cache_artist_genre(artist_id, data[globals.ArtistTableIndex.genre.value])
-            cache_track_genre(track_id, data[globals.ArtistTableIndex.genre.value])
-            return data[globals.ArtistTableIndex.genre.value]
+    filtered_data = artists_data[artists_data["artist_id"] == artist_id]
+    if not filtered_data.empty:
+        cache_artist_genre(artist_id, filtered_data.iloc[0]["genre"])
+        cache_track_genre(track_id, filtered_data.iloc[0]["genre"])
+        return filtered_data.iloc[0]["genre"]
 
 
 def check_if_user_likes_track(user_id: int, track_id: str) -> bool:
@@ -94,21 +95,21 @@ def test_if_user_should_skip():
     false_negative = 0
     incorrect_data = 0
     start_time = time.time()
-    for line in open(os.path.join(globals.DATA_FOLDER_PATH, "sessions.jsonl"), 'r', encoding='utf-8'):
-            data = json.loads(line)
-            try:
-                play_recommended = check_if_user_likes_track(data[globals.SessionsTableIndex.user_id.value], data[globals.SessionsTableIndex.track_id.value])
-            except globals.IncorrectData:
-                incorrect_data += 1
-                continue
-            if data[globals.SessionsTableIndex.action.value] == "Play" and play_recommended:
-                true_positive += 1
-            if data[globals.SessionsTableIndex.action.value] == "Play" and not play_recommended:
-                false_negative += 1
-            if data[globals.SessionsTableIndex.action.value] == "Skip" and play_recommended:
-                false_positive += 1
-            if data[globals.SessionsTableIndex.action.value] == "Skip" and not play_recommended:
-                true_negative += 1
+    sessions_data = globals.create_dataframe_from_array("sessions.jsonl", globals.sessions_columns)
+    for _, row in sessions_data.iterrows():
+        try:
+            play_recommended = check_if_user_likes_track(row["user_id"], row["track_id"])
+        except globals.IncorrectData:
+            incorrect_data += 1
+            continue
+        if row["action"] == "Play" and play_recommended:
+            true_positive += 1
+        if row["action"] == "Play" and not play_recommended:
+            false_negative += 1
+        if row["action"] == "Skip" and play_recommended:
+            false_positive += 1
+        if row["action"] == "Skip" and not play_recommended:
+            true_negative += 1
     end_time = time.time()
     print("True positive: ", true_positive)
     print("True negative: ", true_negative)
@@ -116,5 +117,8 @@ def test_if_user_should_skip():
     print("False negative: ", false_negative)
     print("Incorrect data: ", incorrect_data)
     print("Time in seconds: ", end_time - start_time)
+    print("Accuracy: ", (true_positive + true_negative) / (true_positive + true_negative + false_positive + false_negative))
+    print("Precision: ", true_positive / (true_positive + false_positive))
+    print("Recall: ", true_positive / (true_positive + false_negative))
 
 test_if_user_should_skip()

@@ -59,28 +59,28 @@ Z analizy dostarczonej wersji danych wyciągneliśmy następujące wnioski:
 
     Procentowy rozkład został zaprezentowany na poniższym wykresie:
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/storage_mode.png)
+![Opis alternatywny](./figures/v1/storage_mode.png)
 
 - W pliku sessions otrzymaliśmy informację o około ~10 000 sesjach użytkownika, w przypadku 1301 wierszy posiadało puste wartości. Dodatkowo pola opisujące sesje nie zostały podpsiane, przez co trudno zrozumieć znaczenie biznesowe części pól, w szczególności ostatniej kolumny, będącej dla każdego przypadku liczbą natrualną, dodatnią. Rozkład pola nr. 4 które interpretujemy jako akcję podjętą w danej sesji wygląda w następujący sposób:
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/actions.png)
+![Opis alternatywny](./figures/v1/actions.png)
 
 - Dodatkowo wygenerowaliśmy wykresy ukazujące klasę pamięci dla akcji 'Skip' oraz 'Play', jednak nie staraliśmy się wyciągać jakichkolowiek przypuszczeń bądź wniosków ze względu na duży udział klasy 'Slow' w udostępnionych danych.
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/PlaySession.png)
+![Opis alternatywny](./figures/v1/PlaySession.png)
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/SkipSession.png)
+![Opis alternatywny](./figures/v1/SkipSession.png)
 
 Liczba dostępnych danych na temat sesji jest niewielka w porównaniu do ilości danych na temat utworów
 Ukazują to dwa sporządzone wykresy, na pierwszym z nich widzimy ilość utworów które wystąpują co najmniej raz w pliku sessions, oraz ilość utworów których id nie występuje w pliku sessions:
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/tracks_occurrence.png)
+![Opis alternatywny](./figures/v1/tracks_occurrence.png)
 
 W zapisie z ~9200 sesji występuje około 5300 utworów co stanowi około 4% spośród wszystkich udostępnionych nam utworów.
 
 Drugi wykres ukazuje ilość wystąpień uworów w pliku sessions:
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/tracks_popularity.png)
+![Opis alternatywny](./figures/v1/tracks_popularity.png)
 
 Unikalne utwory pojawiały się najczęściej 1-2 razy w pliku sessions, najczęściej występujący utwór pojawił się pliku sessions 5 razy
 
@@ -88,7 +88,7 @@ Unikalne utwory pojawiały się najczęściej 1-2 razy w pliku sessions, najczę
 
 Dodatkowo sprawdziliśmy jaki rodzaj muzyki występuje w dostarczonych danych nt. sesji użytkownika, rodzaj muzyki ustalaliśmy na bazie podaych gatunków muzycznych dla artystów przypisanych do konkretnych utworów. Wykres prezentuje się w następujący sposób:
 
-![Opis alternatywny](./data_analize_scripts/plots/v1/music_genres.png)
+![Opis alternatywny](./figures/v1/music_genres.png)
 
 Na wykresie możemy zauważyć istotną różnicę w występowaniu poszczególnych gatunków muzycznych w dostarczonych danych na temat sesji użytkowników, część z gatunków muzycznych jest częściej proponowana przez aplikację.
 

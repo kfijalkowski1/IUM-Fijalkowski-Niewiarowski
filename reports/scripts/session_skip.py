@@ -25,16 +25,18 @@ if data['timestamp'].isnull().any():
     print("Warning: Some timestamps could not be parsed. Check the data for inconsistencies.")
     data = data.dropna(subset=['timestamp'])  # Usuń wiersze z brakującym timestampem
 
-# Filtruj dane dla akcji "Play" i "Skip"
+# Filtruj dane dla akcji "Play", "Skip" i "Like"
 play_data = data[data['action'] == 'Play']
 skip_data = data[data['action'] == 'Skip']
+like_data = data[data['action'] == 'Like']
 
 # Dołącz kolumny do identyfikacji tej samej sesji i utworu
 play_data = play_data.copy()
 play_data['skipped'] = False
+play_data['liked'] = False
 play_data['duration_time'] = None
 
-# Iteruj po danych "Play" i sprawdzaj, czy istnieje odpowiednia akcja "Skip"
+# Iteruj po danych "Play" i sprawdzaj, czy istnieje odpowiednia akcja "Skip" i "Like"
 for idx, play_row in play_data.iterrows():
     user_id = play_row['user_id']
     session_id = play_row['session_id']
@@ -67,11 +69,22 @@ for idx, play_row in play_data.iterrows():
         play_data.at[idx, 'skipped'] = True
         play_data.at[idx, 'duration_time'] = duration_time
 
+    # Znajdź odpowiednią akcję "Like"
+    corresponding_like = like_data[
+        (like_data['user_id'] == user_id) &
+        (like_data['session_id'] == session_id) &
+        (like_data['track_id'] == track_id)
+    ]
+
+    if not corresponding_like.empty:
+        # Oznacz, że utwór został polubiony
+        play_data.at[idx, 'liked'] = True
+
 # Wynikowe dane
 play_data['duration_time'] = play_data['duration_time'].astype(float, errors='ignore')  # Upewnij się, że kolumna ma odpowiedni typ
 
 # Zapisz wyniki do pliku JSONL
-output_path = data_path + '/sessions_with_skip_info.jsonl'
+output_path = data_path + '/sessions_with_skip_and_like_info.jsonl'
 play_data.to_json(output_path, orient='records', lines=True)
 
 print(f'Wyniki zapisane do pliku: {output_path}')

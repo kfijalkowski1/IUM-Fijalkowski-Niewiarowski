@@ -1,5 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
+
+PLOTS_FOLDER_PATH = os.path.join("reports", "figures", "v1")
 
 # Wczytanie danych
 file_path = './data_analize_scripts/dane/v1/updated_sessions.jsonl'
@@ -18,4 +22,5 @@ plt.title("Rozkład procentu przesłuchania utworów (percent_played)", fontsize
 plt.xlabel("Procent przesłuchania", fontsize=12)
 plt.ylabel("Liczba utworów", fontsize=12)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.savefig(PLOTS_FOLDER_PATH + "/histogram.png", format="png", dpi=300)
 plt.show()

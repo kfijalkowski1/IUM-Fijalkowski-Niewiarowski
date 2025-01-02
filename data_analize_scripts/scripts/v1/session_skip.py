@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Wczytaj dane z pliku
-data_path = './data_analize_scripts/dane/v1'
+data_path = './data_analize_scripts/dane/v2'
 sessions_path = data_path + '/sessions.jsonl'
 tracks_path = data_path + '/tracks.jsonl'
 
@@ -16,7 +16,10 @@ def rename_columns(df, new_columns):
 rename_columns(data, columns)
 
 # Poprawa formatu strefy czasowej w kolumnie timestamp
-data['timestamp'] = data['timestamp'].str.replace(" +02:00:00", " +02:00", regex=False)
+#data['timestamp'] = data['timestamp'].str.replace(" +02:00:00", " +02:00", regex=False)
+
+data['timestamp'] = data['timestamp'].str.replace("+02", " +02:00", regex=False)
+
 
 # Konwersja kolumny timestamp na datetime
 data['timestamp'] = pd.to_datetime(data['timestamp'], errors='coerce')

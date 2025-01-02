@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import os
 
 
-PLOTS_FOLDER_PATH = os.path.join("reports", "figures", "v1")
+PLOTS_FOLDER_PATH = os.path.join("reports", "figures", "v2")
 
 # Wczytanie danych
-file_path = './data_analize_scripts/dane/v1/updated_sessions.jsonl'
+file_path = './data_analize_scripts/dane/v2/extended_data_opt.jsonl'
 data = pd.read_json(file_path, lines=True)
 
 # Filtracja danych

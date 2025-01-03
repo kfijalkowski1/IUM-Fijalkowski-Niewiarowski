@@ -74,6 +74,21 @@ Mikroserwis został zaimplementowany przy użyciu frameworka FastAPI, który umo
 Dane wejściowe są przesyłane jako obiekt JSON, opisany przez model Pydantic (PredictionRequest). Każda predykcja jest przetwarzana przez odpowiedni model, a jej wynik (np. PLAY lub SKIP) jest zwracany klientowi i zapisywany do logów w celu późniejszej analizy. Logi są inicjalizowane przy pierwszym uruchomieniu aplikacji, jeśli plik logów nie istnieje.
 
 ## Instrukcja uruchomienia
+Zainstaluj wymagane zależności:
+```
+   pip install -r requirements.txt
+```
+
+Dodaj aktualą wersję danych w lokalizacji:
+```
+   ./data/raw/v2
+```
+Lista wymaganych plików:
+   - sessions.jsonl
+   - tracks.jsonl
+   - users.jsonl
+   - artists.jsonl
+
 
 Uruchom Mikroserwis używając uvicorn:
 ``` 

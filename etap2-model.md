@@ -106,7 +106,7 @@ Przykładowe zapytanie z poziomu PowerShell:
 
 ### Testy AB
 
-Testy A/B w mikroserwisie są realizowane za pośrednictwem dedykowanego endpointu /abtest, który losowo wybiera jeden z dwóch modeli (naiwny lub docelowy) z równym prawdopodobieństwem 50/50. Dla każdego żądania serwis:
+Testy A/B w mikroserwisie są realizowane za pośrednictwem dedykowanego endpointu /abtest, który wybiera jeden z dwóch modeli (naiwny lub docelowy) z równym prawdopodobieństwem 50/50. Dla każdego żądania serwis:
 
 Losowy wybór modelu: Decyduje, czy predykcja zostanie wygenerowana przez model naiwny (BaseModel), czy docelowy (NormalModel).
 Wykonanie predykcji: Wybrany model generuje wynik dla danego użytkownika (user_id) i utworu (track_id), wskazując, czy utwór zostanie odtworzony (PLAY) czy pominięty (SKIP).
@@ -119,8 +119,8 @@ Wyniki przeprowadzonego testu:
 Dla obu modeli otrzymaliśmy następującą accuracy:
 ```
       model  accuracy
-   0   naive  0.415354
-   1  target  0.754065
+   0   naive  0.432075
+   1  target  0.744681
 ```
 
 W dobry sposób prezentuje to sporządzony wykres:
@@ -129,6 +129,6 @@ W dobry sposób prezentuje to sporządzony wykres:
 
 Wnioski na podstawie testów AB
 
-1. Uzyskane wyniki testu A/B wyraźnie wskazują, że model docelowy (target) osiąga znacznie lepszą skuteczność (accuracy: 75,41%) w porównaniu do modelu naiwnego (naive), którego dokładność wynosi jedynie 41,54%. Taka różnica sugeruje, że model docelowy lepiej przewiduje zachowania użytkowników, co czyni go bardziej wartościowym w praktycznym zastosowaniu, np. w systemach rekomendacyjnych.
+1. Uzyskane wyniki testu A/B wyraźnie wskazują, że model docelowy (target) osiąga znacznie lepszą skuteczność (accuracy: 74,47%) w porównaniu do modelu naiwnego (naive), którego dokładność wynosi jedynie 43,2%. Taka różnica sugeruje, że model docelowy lepiej przewiduje zachowania użytkowników, co czyni go bardziej wartościowym w praktycznym zastosowaniu, np. w systemach rekomendacyjnych.
 
 2. Sporządzony wykres nie tylko wizualizuje tę różnicę, ale także podkreśla istotność prowadzenia testów A/B jako narzędzia do podejmowania decyzji opartych na danych. Wyniki wskazują, że wdrożenie modelu docelowego może znacząco poprawić jakość rekomendacji i zadowolenie użytkowników.

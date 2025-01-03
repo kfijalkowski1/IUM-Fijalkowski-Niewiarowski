@@ -1,7 +1,6 @@
 from ium_fij_niew.model_usage.model_classes import BaseModel, PredictResult, NormalModel
 from fastapi import FastAPI
 from pydantic import BaseModel as bs
-import random
 import json
 import os
 
@@ -57,7 +56,7 @@ async def target_predict(request: PredictionRequest):
 @app.post("/abtest")
 async def abtest(request: PredictionRequest):
     # Wybór modelu: 50/50 naiwnego i docelowego
-    chosen_model = "naive" if random.random() < 0.5 else "target"
+    chosen_model = "naive" if request.user_id % 2 == 0 else "target"
 
     if chosen_model == "naive":
         prediction = naive_model.predict(request.user_id, request.track_id)

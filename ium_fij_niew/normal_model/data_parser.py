@@ -48,32 +48,39 @@ def one_hot_encoding_genres(merged_data):
 
 def parse_data():
     sessions_data = get_sessions_data()
-    # load other data
-    user_data =  pd.DataFrame(pd.read_json(os.path.join(utils.DATA_FOLDER_PATH, "users.jsonl"), lines=True))
+    # Load other data
+    user_data = pd.DataFrame(pd.read_json(os.path.join(utils.DATA_FOLDER_PATH, "users.jsonl"), lines=True))
     tracks_data = pd.DataFrame(pd.read_json(os.path.join(utils.DATA_FOLDER_PATH, "tracks.jsonl"), lines=True))
 
-    # merge data
+    # Merge data
     merged_data_ses = sessions_data.merge(user_data[["user_id", "favourite_genres"]], on="user_id", how="inner")
     merged_data_ses = merged_data_ses[merged_data_ses["track_id"].notna()]
     merged_data = merged_data_ses.merge(tracks_data[
                                             ["id", "popularity", "danceability", "energy", "loudness", "speechiness",
-                                            "acousticness", "instrumentalness", "liveness", "valence", "tempo"]],
+                                             "acousticness", "instrumentalness", "liveness", "valence", "tempo"]],
                                         left_on="track_id", right_on="id", how="left")
 
     scale_data(merged_data)
-    # one hot encoding of genres
+    # One hot encoding of genres
     merged_data = one_hot_encoding_genres(merged_data)
 
-
-    # encode event_type
+    # Encode event_type
     merged_data["event_type"] = merged_data["event_type"].map({"Play": 1, "Skip": 0})
 
-    merged_data = merged_data.drop(columns=
-                                   ["session_id", "id", "track_id", "user_id",
-                                    "popularity", "loudness", "tempo", "favourite_genres"])
-    validation_data = merged_data.sample(n=1000)
-    merged_data = merged_data.drop(validation_data.index)
+    # Ensure required columns exist before splitting for A/B test
+    required_columns = ["user_id", "track_id", "event_type"]
+    for col in required_columns:
+        if col not in merged_data.columns:
+            raise KeyError(f"Required column '{col}' not found in merged_data.")
 
+    # Separate data for A/B test
+    ab_test_data = merged_data.sample(n=1000, random_state=42)
+    ab_test_data = ab_test_data[required_columns]
+    merged_data = merged_data.drop(ab_test_data.index)
+
+    # Split data for validation
+    validation_data = merged_data.sample(n=1000, random_state=42)
+    merged_data = merged_data.drop(validation_data.index)
 
     y = merged_data[["event_type"]]
     y_valid = validation_data[["event_type"]]
@@ -81,10 +88,12 @@ def parse_data():
     merged_data = merged_data.drop(columns=["event_type"])
     validation_data = validation_data.drop(columns=["event_type"])
 
+    # Save processed data
     merged_data.to_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "merged_data.csv"), index=False)
     y.to_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "y.csv"), index=False)
     validation_data.to_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "validation_data.csv"), index=False)
     y_valid.to_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "validation_classes.csv"), index=False)
+    ab_test_data.to_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "ab_test_data.csv"), index=False)
 
 def check_if_files_exist(file_names: list[str]) -> bool:
     for file_name in file_names:
@@ -109,3 +118,5 @@ def get_data(force: bool=False) -> tuple[DataFrame, DataFrame, DataFrame, DataFr
     validation_data = pd.read_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "validation_data.csv"))
     validation_classes = pd.read_csv(os.path.join(utils.PROCESSED_DATA_FOLDER_PATH, "validation_classes.csv"))['event_type'].to_numpy()
     return X, y, validation_data, validation_classes
+
+get_data()

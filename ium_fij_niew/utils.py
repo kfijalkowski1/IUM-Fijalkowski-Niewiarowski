@@ -3,7 +3,8 @@ import os
 import pandas as pd
 from typing import List
 
-DATA_FOLDER_PATH = os.path.join("data", "raw", "v1")
+DATA_FOLDER_PATH = os.path.join("data", "raw", "v2")
+PROCESSED_DATA_FOLDER_PATH = os.path.join("data", "processed")
 PLOTS_FOLDER_PATH = os.path.join("reports", "figures")
 
 # users table indexes
@@ -38,9 +39,11 @@ user_columns = ["user_id", "name", "address1", "address2", "liked_genres", "unkn
 artist_columns = ["artist_id", "artist_name", "genre"]
 sessions_columns = ["session_date", "user_id", "track_id", "action", "unknown"]
 
+
 def create_dataframe_from_array(path: str, columns: List[str]) -> pd.DataFrame:
     global DATA_FOLDER_PATH
     data = pd.DataFrame(pd.read_json(os.path.join(DATA_FOLDER_PATH, path), lines=True))
     data.transpose()
     data.columns = columns
     return data
+

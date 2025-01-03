@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from ium_fij_niew.utils import DATA_FOLDER_PATH
 #from ium_fij_niew.globals import DATA_FOLDER_PATH
 
 DATA_FOLDER_PATH = os.path.join("data_analize_scripts", "dane", "v2_raw/")

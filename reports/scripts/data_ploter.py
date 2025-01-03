@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import os
 import pandas as pd
+from ium_fij_niew.utils import DATA_FOLDER_PATH, PLOTS_FOLDER_PATH
 #from ium_fij_niew.globals import DATA_FOLDER_PATH, PLOTS_FOLDER_PATH
 
 DATA_FOLDER_PATH = os.path.join("data_analize_scripts", "dane", "v2_raw/")

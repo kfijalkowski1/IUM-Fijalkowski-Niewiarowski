@@ -1,9 +1,11 @@
+import os
+
 import pandas as pd
 
 # Wczytaj dane z pliku
-data_path = './data_analize_scripts/dane/v2'
-sessions_path = data_path + '/sessions.jsonl'
-tracks_path = data_path + '/tracks.jsonl'
+data_path = os.path.join("data", "raw", "v2")
+sessions_path = os.path.join(data_path, 'sessions.jsonl')
+tracks_path = os.path.join(data_path, 'tracks.jsonl')
 
 # Wczytanie wszystkich danych
 data = pd.read_json(sessions_path, lines=True)

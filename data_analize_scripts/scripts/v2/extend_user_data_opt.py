@@ -1,9 +1,8 @@
 import pandas as pd
+import os
 
-DATA_PATH = './data_analize_scripts/dane/v2/'
 # Wczytaj dane z pliku
-sessions_path = DATA_PATH + 'sessions_with_skip_like_and_duration_info_test_opt.jsonl'
-users_path = DATA_PATH + 'users.jsonl'
+sessions_path = os.path.join('data', "raw", "v2", "sessions_with_skip_like_and_duration_info_test_opt.jsonl")
 
 # Wczytanie wszystkich danych
 play_data = pd.read_json(sessions_path, lines=True)
@@ -37,7 +36,7 @@ play_data['avg_percent_played'] = play_data['avg_percent_played'].fillna(0)
 play_data['percent_full_tracks'] = play_data['percent_full_tracks'].fillna(0)
 
 # Zapisz wyniki do pliku JSONL
-output_sessions_path = './data_analize_scripts/dane/v2/extended_data_opt.jsonl'
+output_sessions_path = os.path.join('data', "raw", "v2", "extended_data_opt.jsonl")
 play_data[['timestamp', 'user_id', 'track_id', 'action', 'session_id', 'duration_time', 'percent_played', 'liked', 'skipped', 'avg_percent_played', 'percent_full_tracks']].to_json(output_sessions_path, orient='records', lines=True)
 
 print(f'Wyniki zapisane do pliku: {output_sessions_path}')

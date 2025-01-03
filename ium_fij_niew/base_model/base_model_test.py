@@ -1,6 +1,6 @@
 from typing import List
 import os
-import ium_fij_niew.globals as globals
+import ium_fij_niew.utils as globals
 import pandas as pd
 import time
 
@@ -120,5 +120,3 @@ def test_if_user_should_skip():
     print("Accuracy: ", (true_positive + true_negative) / (true_positive + true_negative + false_positive + false_negative))
     print("Precision: ", true_positive / (true_positive + false_positive))
     print("Recall: ", true_positive / (true_positive + false_negative))
-
-test_if_user_should_skip()

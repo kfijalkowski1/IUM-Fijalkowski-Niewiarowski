@@ -1,7 +1,9 @@
 import pandas as pd
 
+DATA_PATH = './data_analize_scripts/dane/v2/'
 # Wczytaj dane z pliku
-sessions_path = './data_analize_scripts/dane/v2/sessions_with_skip_like_and_duration_info_test_opt.jsonl'
+sessions_path = DATA_PATH + 'sessions_with_skip_like_and_duration_info_test_opt.jsonl'
+users_path = DATA_PATH + 'users.jsonl'
 
 # Wczytanie wszystkich danych
 play_data = pd.read_json(sessions_path, lines=True)

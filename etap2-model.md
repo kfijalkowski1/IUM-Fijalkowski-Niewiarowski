@@ -24,6 +24,10 @@ Dane zostały następnie zapisane do folderu data/processed w postaci następuj�
 - validation_classes.csv - etykiety dla danych walidujących
 - ab_test_data.csv
 
+### Macierz korelacji cech
+Macierz korelacji opracowana z wykorzytsaniem skryptu ``` corelation.py ```
+
+![Opis alternatywny](./figures/v2/correlation_matrix_plot.png)
 
 # Model
 Został wykorzystany model LiniearSVC z domyślnymi parametrami.

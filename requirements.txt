@@ -7,4 +7,9 @@ python-dotenv
 pandas
 fastapi
 uvicorn
+matplotlib
+seaborn
+scikit-learn
+numpy
+joblib
 -e .

@@ -67,7 +67,7 @@ Dane zostały następnie zapisane do folderu data/processed w postaci następuj�
 ### Macierz korelacji cech
 Macierz korelacji opracowana z wykorzytsaniem skryptu ``` corelation.py ```
 
-![Opis alternatywny](./figures/v2/correlation_matrix_plot.png)
+![Opis alternatywny](./reports/figures/v2/correlation_matrix_plot.png)
 
 # Model
 Został wykorzystany model LiniearSVC z domyślnymi parametrami.
@@ -169,7 +169,7 @@ Dla obu modeli otrzymaliśmy następującą accuracy:
 
 W dobry sposób prezentuje to sporządzony wykres:
 
-![Opis alternatywny](./figures/v2/accuracy.png)
+![Opis alternatywny](./reports/figures/v2/accuracy.png)
 
 Wnioski na podstawie testów AB
 
@@ -179,11 +179,11 @@ Wnioski na podstawie testów AB
 
 ## Istotność Cech:
 
-![Opis alternatywny](./figures/v2/feature_importance_part_1.png)
-![Opis alternatywny](./figures/v2/feature_importance_part_2.png)
-![Opis alternatywny](./figures/v2/feature_importance_part_3.png)
-![Opis alternatywny](./figures/v2/feature_importance_part_4.png)
-![Opis alternatywny](./figures/v2/feature_importance_part_5.png)
+![Opis alternatywny](./reports/figures/v2/feature_importance_part_1.png)
+![Opis alternatywny](./reports/figures/v2/feature_importance_part_2.png)
+![Opis alternatywny](./reports/figures/v2/feature_importance_part_3.png)
+![Opis alternatywny](./reports/figures/v2/feature_importance_part_4.png)
+![Opis alternatywny](./reports/figures/v2/feature_importance_part_5.png)
 
 Wnioski na podstawie wykresów istotności cech:
 1. Analizując przedstawione wykresy można dostrzec że największy wpływ na działanie modelu mają cehcy takie jak: track_skip_rate, user_skip_rate oraz popularność danego utworu.

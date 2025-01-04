@@ -136,3 +136,16 @@ Wnioski na podstawie testów AB
 1. Uzyskane wyniki testu A/B wyraźnie wskazują, że model docelowy (target) osiąga znacznie lepszą skuteczność (accuracy: 74,47%) w porównaniu do modelu naiwnego (naive), którego dokładność wynosi jedynie 43,2%. Taka różnica sugeruje, że model docelowy lepiej przewiduje zachowania użytkowników, co czyni go bardziej wartościowym w praktycznym zastosowaniu, np. w systemach rekomendacyjnych.
 
 2. Sporządzony wykres nie tylko wizualizuje tę różnicę, ale także podkreśla istotność prowadzenia testów A/B jako narzędzia do podejmowania decyzji opartych na danych. Wyniki wskazują, że wdrożenie modelu docelowego może znacząco poprawić jakość rekomendacji i zadowolenie użytkowników.
+
+## Istotność Cech:
+
+![Opis alternatywny](./figures/v2/feature_importance_part_1.png)
+![Opis alternatywny](./figures/v2/feature_importance_part_2.png)
+![Opis alternatywny](./figures/v2/feature_importance_part_3.png)
+![Opis alternatywny](./figures/v2/feature_importance_part_4.png)
+![Opis alternatywny](./figures/v2/feature_importance_part_5.png)
+
+Wnioski na podstawie wykresów istotności cech:
+1. Analizując przedstawione wykresy można dostrzec że największy wpływ na działanie modelu mają cehcy takie jak: track_skip_rate, user_skip_rate oraz popularność danego utworu.
+
+2. Gatunek muzyczny jaki dany utwór reprezentuje mają nieznaczny wpływ na predykcje modelu, jednak występują między poszczególnymi gatunkami istotne różnice.

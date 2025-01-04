@@ -1,6 +1,9 @@
 import pandas as pd
 import os
-from ium_fij_niew.globals import DATA_FOLDER_PATH
+from ium_fij_niew.utils import DATA_FOLDER_PATH
+#from ium_fij_niew.globals import DATA_FOLDER_PATH
+
+DATA_FOLDER_PATH = os.path.join("data_analize_scripts", "dane", "v2_raw/")
 
 """
 This module is responsible for data analysis.
@@ -14,6 +17,7 @@ def get_nulls(file_path):
     :return: nulls in data
     """
     file_path = os.path.abspath(file_path)
+    print(f"Processing file: {file_path}")
     data = pd.read_json(file_path, lines=True)
     no_rows = data.shape[0]
     rows_with_nulls = data.isnull().any(axis=1).sum()
@@ -47,3 +51,5 @@ def analyze_files():
             # add different analysis here
 
 analyze_files()
+#print(sys.path)
+#sys.path.append('C:/Users/Bartek/Projekty24Z/IUM-Fijalkowski-Niewiarowski/ium_fij_niew')

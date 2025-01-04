@@ -3,7 +3,11 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import os
 import pandas as pd
-from ium_fij_niew.globals import DATA_FOLDER_PATH, PLOTS_FOLDER_PATH
+from ium_fij_niew.utils import DATA_FOLDER_PATH, PLOTS_FOLDER_PATH
+#from ium_fij_niew.globals import DATA_FOLDER_PATH, PLOTS_FOLDER_PATH
+
+DATA_FOLDER_PATH = os.path.join("data_analize_scripts", "dane", "v2_raw/")
+PLOTS_FOLDER_PATH = os.path.join("reports", "figures", "v2/")
 
 def actions_in_session(file_name):
     file_path = os.path.abspath(DATA_FOLDER_PATH + file_name)
@@ -13,8 +17,9 @@ def actions_in_session(file_name):
     with open(file_path, 'r') as file:
         for line in file:
             record = json.loads(line)
-            if len(record) > 3 and record[3]:  # Sprawdź, czy pole akcji jest obecne
-                actions.append(record[3])
+            # Use key-based access for JSON fields
+            if 'event_type' in record:
+                actions.append(record['event_type'])
 
     # Zlicz wystąpienia każdej akcji
     action_counts = Counter(actions)
@@ -240,14 +245,14 @@ def plot_genre_histogram(artists_path, sessions_path):
     plt.show()
 
 def main():
-    #actions_in_session('sessions.jsonl')
-    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
-    #analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
-    #storage_mode('track_storage.jsonl', 'storage_mode.png')
-    #tracks_with_sessions('tracks.jsonl','sessions.jsonl')
-    #trac_popularity('tracks.jsonl','sessions.jsonl')
-    #plot_genre_histogram_for_action('Play', 'artists.jsonl', 'sessions.jsonl')
-    #plot_genre_histogram_for_action('Like', 'artists.jsonl', 'sessions.jsonl')
+    actions_in_session('sessions.jsonl')
+    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Skip','SkipSession.png')
+    analyze_skip_percentage('sessions.jsonl', 'track_storage.jsonl','Play','PlaySession.png')
+    storage_mode('track_storage.jsonl', 'storage_mode.png')
+    tracks_with_sessions('tracks.jsonl','sessions.jsonl')
+    trac_popularity('tracks.jsonl','sessions.jsonl')
+    plot_genre_histogram_for_action('Play', 'artists.jsonl', 'sessions.jsonl')
+    plot_genre_histogram_for_action('Like', 'artists.jsonl', 'sessions.jsonl')
     plot_genre_histogram('artists.jsonl', 'sessions.jsonl')
 
 main()
